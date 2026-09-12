@@ -8,15 +8,19 @@ const MainFooter = () => {
         <div className="grid grid-cols-1 gap-8 md:grid-cols-4 md:gap-10">
           {/* Brand */}
           <div className="md:col-span-1">
-            <img src={FooterLogo} alt="Dev Stack" className="h-5 w-auto" />
+            <img
+              src={FooterLogo}
+              alt="Dev Stack"
+              className="block mx-auto md:mx-0 h-5 w-auto"
+            />
 
-            <p className="mt-3 max-w-[300px] text-[9px] leading-[1.7] text-slate-400 md:text-[10px]">
+            <p className="mt-3 mx-auto md:mx-0 max-w-[300px] text-center md:text-left text-[9px] leading-[1.7] text-slate-400 md:text-[10px]">
               Curated tools, technologies, and resources for developers building
               modern software.
             </p>
 
             {/* Social Links */}
-            <div className="mt-4 flex items-center gap-4">
+            <div className="mt-4 flex justify-center md:justify-start items-center gap-4">
               <a
                 href="https://github.com"
                 target="_blank"
