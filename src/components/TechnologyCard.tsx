@@ -47,7 +47,7 @@ const TechnologyCard = ({
         {technology.description}
       </p>
 
-      {/* Information */}
+      {/* Category / Difficulty / Rating */}
       <div className="mt-2 flex items-center justify-between gap-1">
         <span className="rounded bg-slate-100 px-2 py-1 text-[8px] text-slate-500">
           {technology.category}
@@ -62,7 +62,7 @@ const TechnologyCard = ({
         </span>
       </div>
 
-      {/* Add Button */}
+      {/* Add to Stack */}
       <button
         type="button"
         onClick={() => onAdd(technology)}

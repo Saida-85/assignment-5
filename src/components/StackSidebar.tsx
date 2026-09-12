@@ -21,11 +21,12 @@ const StackSidebar = ({ stack, onRemove, onRemoveAll }: StackSidebarProps) => {
       {/* Heading */}
       <h2 className="text-sm font-bold text-slate-900">Your Stack</h2>
 
+      {/* Selected Count */}
       <p className="mt-1 text-[9px] text-slate-400">
         {stack.length === 0
           ? "No technologies selected yet."
           : `${stack.length} Technology${
-              stack.length === 1 ? "" : "ies"
+              stack.length === 1 ? "" : "s"
             } Selected`}
       </p>
 
@@ -38,19 +39,21 @@ const StackSidebar = ({ stack, onRemove, onRemoveAll }: StackSidebarProps) => {
         </div>
       ) : (
         <>
-          {/* Selected Technologies */}
+          {/* Stack Items */}
           <div className="mt-4 space-y-2">
             {stack.map((technology) => (
               <div
                 key={technology.id}
                 className="flex items-center gap-2 rounded-lg border border-slate-200 p-2"
               >
+                {/* Icon */}
                 <img
                   src={technology.icon}
                   alt={technology.name}
                   className="h-7 w-7 object-contain"
                 />
 
+                {/* Name + Category */}
                 <div className="min-w-0 flex-1">
                   <h3 className="truncate text-[10px] font-bold text-slate-800">
                     {technology.name}
@@ -61,6 +64,7 @@ const StackSidebar = ({ stack, onRemove, onRemoveAll }: StackSidebarProps) => {
                   </p>
                 </div>
 
+                {/* Remove */}
                 <button
                   type="button"
                   onClick={() => onRemove(technology.id)}

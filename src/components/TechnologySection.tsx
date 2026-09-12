@@ -1,8 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
-import technologies from "../data/technologies.json";
 
 import TechnologyCard from "./TechnologyCard";
 import StackSidebar from "./StackSidebar";
@@ -19,7 +17,32 @@ interface Technology {
 }
 
 const TechnologySection = () => {
+  const [technologies, setTechnologies] = useState<Technology[]>([]);
   const [stack, setStack] = useState<Technology[]>([]);
+
+  // Loading state
+  const [loading, setLoading] = useState(true);
+
+  // Fetch technology data
+  useEffect(() => {
+    fetch("/data/technologies.json")
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to fetch technology data");
+        }
+
+        return response.json();
+      })
+      .then((data: Technology[]) => {
+        setTechnologies(data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error(error);
+        toast.error("Failed to load technologies!");
+        setLoading(false);
+      });
+  }, []);
 
   // Add technology
   const handleAdd = (technology: Technology) => {
@@ -66,29 +89,43 @@ const TechnologySection = () => {
             </p>
           </div>
 
-          {/* Main Layout */}
-          <div className="grid grid-cols-1 gap-5 lg:grid-cols-[1fr_280px]">
-            {/* Technology Cards */}
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {technologies.map((technology: Technology) => (
-                <TechnologyCard
-                  key={technology.id}
-                  technology={technology}
-                  onAdd={handleAdd}
-                  isAdded={stack.some((item) => item.id === technology.id)}
-                />
-              ))}
-            </div>
+          {/* Loading State */}
+          {loading ? (
+            <div className="flex min-h-[400px] items-center justify-center">
+              <div className="flex flex-col items-center gap-3">
+                {/* Spinner */}
+                <div className="h-8 w-8 animate-spin rounded-full border-4 border-slate-200 border-t-pink-500"></div>
 
-            {/* Your Stack */}
-            <div className="lg:sticky lg:top-5 lg:h-fit">
-              <StackSidebar
-                stack={stack}
-                onRemove={handleRemove}
-                onRemoveAll={handleRemoveAll}
-              />
+                <p className="text-sm font-medium text-slate-500">
+                  Loading technologies...
+                </p>
+              </div>
             </div>
-          </div>
+          ) : (
+            /* Main Layout */
+            <div className="grid grid-cols-1 gap-5 lg:grid-cols-[1fr_280px]">
+              {/* Technology Cards */}
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                {technologies.map((technology) => (
+                  <TechnologyCard
+                    key={technology.id}
+                    technology={technology}
+                    onAdd={handleAdd}
+                    isAdded={stack.some((item) => item.id === technology.id)}
+                  />
+                ))}
+              </div>
+
+              {/* Your Stack */}
+              <div className="lg:sticky lg:top-5 lg:h-fit">
+                <StackSidebar
+                  stack={stack}
+                  onRemove={handleRemove}
+                  onRemoveAll={handleRemoveAll}
+                />
+              </div>
+            </div>
+          )}
         </div>
       </section>
 
